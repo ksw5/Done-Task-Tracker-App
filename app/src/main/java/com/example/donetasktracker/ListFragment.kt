@@ -40,22 +40,23 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = TaskAdapter(viewModel.tasks, object : TaskAdapter.OnItemClickedListener {
-                override fun onItemClicked(position: Int) {
-                    val taskToEditString = viewModel.tasks[position]
-                    Log.d("kieran", "task clicked on $taskToEditString")
-                    val action = ListFragmentDirections.actionListFragmentToUpdateFragment(taskToEditString)
-                    viewModel.lastPositionClickedOn = position
+            override fun onItemClicked(position: Int) {
+                val taskToEditString = viewModel.tasks[position]
+                Log.d("kieran", "task clicked on $taskToEditString")
+                val action =
+                    ListFragmentDirections.actionListFragmentToUpdateFragment(taskToEditString)
+                viewModel.lastPositionClickedOn = position
 
-                    view.findNavController().navigate(action)
-                    val newlyEditedTask = args.newlyEditedTask
-                    if (!newlyEditedTask.isNullOrEmpty()) {
-                        viewModel.tasks[viewModel.lastPositionClickedOn] = newlyEditedTask
-                        adapter?.notifyDataSetChanged()
-                    }
-
+                view.findNavController().navigate(action)
+                val newlyEditedTask = args.newlyEditedTask
+                if (!newlyEditedTask.isNullOrEmpty()) {
+                    viewModel.tasks[viewModel.lastPositionClickedOn] = newlyEditedTask
+                    adapter?.notifyDataSetChanged()
                 }
 
-            })
+            }
+
+        })
 
 
 
@@ -69,15 +70,22 @@ class ListFragment : Fragment() {
 
             }
             recyclerView.setHasFixedSize(true)
+            swipeToDelete(recyclerView)
 
         }
-
-        // This code causes app to crash on startup, but I need a way to update
-        // to the newly edited task
-
-
-
     }
 
-
+    // Swipe to delete
+    private fun swipeToDelete(recyclerView: RecyclerView) {
+        val swipeToDeleteCallBack = object : SwipeToDelete() {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                viewModel.tasks.removeAt(position)
+                adapter?.notifyItemRemoved(position)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallBack)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
+
+}
