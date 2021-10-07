@@ -44,6 +44,7 @@ class UpdateFragment : Fragment() {
             val newlyEditedTask = view.findViewById<EditText>(R.id.title_edit).text.toString()
             Log.d("Kieran", "before heading back to listfragment $newlyEditedTask" )
             // Go back to ListFragment
+            viewModel.tasks[viewModel.lastPositionClickedOn] = newlyEditedTask
             val action = UpdateFragmentDirections.actionUpdateFragmentToListFragment(newlyEditedTask)
             findNavController().navigate(action)
 

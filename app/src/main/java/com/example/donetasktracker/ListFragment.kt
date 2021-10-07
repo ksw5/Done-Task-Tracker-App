@@ -47,9 +47,16 @@ class ListFragment : Fragment() {
                     viewModel.lastPositionClickedOn = position
 
                     view.findNavController().navigate(action)
+                    val newlyEditedTask = args.newlyEditedTask
+                    if (!newlyEditedTask.isNullOrEmpty()) {
+                        viewModel.tasks[viewModel.lastPositionClickedOn] = newlyEditedTask
+                        adapter?.notifyDataSetChanged()
+                    }
 
                 }
+
             })
+
 
 
         binding.apply {
@@ -67,11 +74,7 @@ class ListFragment : Fragment() {
 
         // This code causes app to crash on startup, but I need a way to update
         // to the newly edited task
-       val newlyEditedTask = args.newlyEditedTask
-        if (!newlyEditedTask.isNullOrEmpty()) {
-            viewModel.tasks[viewModel.lastPositionClickedOn] = newlyEditedTask
-            adapter?.notifyDataSetChanged()
-        }
+
 
 
     }
