@@ -6,6 +6,6 @@ import androidx.lifecycle.ViewModel
 class TaskViewModel : ViewModel() {
 
     val tasks = mutableListOf<String>()
-    var positionOfTaskBeingEdited = -1
+    var lastPositionClickedOn = -1
 
 }

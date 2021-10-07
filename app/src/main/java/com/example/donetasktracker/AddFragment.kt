@@ -34,12 +34,13 @@ class AddFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<Button>(R.id.addButton).setOnClickListener{
             // Grab the text in the edittext
-            val newlyAddedTask = view.findViewById<EditText>(R.id.title_add).text.toString()
-            viewModel.tasks.add(newlyAddedTask)
+            val newAddedTask = view.findViewById<EditText>(R.id.title_add).text.toString()
+            viewModel.tasks.add(newAddedTask)
             adapter?.notifyItemChanged(viewModel.tasks.size - 1)
 
             // Go back to ListFragment
-            val action = AddFragmentDirections.actionAddFragmentToListFragment(newlyAddedTask)
+            val action = AddFragmentDirections.actionAddFragmentToListFragment(newAddedTask)
+            adapter?.notifyItemChanged(viewModel.tasks.size - 1)
             findNavController().navigate(action)
         }
     }

@@ -1,6 +1,7 @@
 package com.example.donetasktracker
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,8 @@ class UpdateFragment : Fragment() {
     private val viewModel: TaskViewModel by activityViewModels()
     private lateinit var taskToEdit: String
     val args: UpdateFragmentArgs by navArgs()
-    lateinit var adapter: TaskAdapter
+    private lateinit var adapter: TaskAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +42,14 @@ class UpdateFragment : Fragment() {
         //pass back the edited task
         view.findViewById<Button>(R.id.saveButton).setOnClickListener {
             val newlyEditedTask = view.findViewById<EditText>(R.id.title_edit).text.toString()
+            Log.d("Kieran", "before heading back to listfragment $newlyEditedTask" )
             // Go back to ListFragment
             val action = UpdateFragmentDirections.actionUpdateFragmentToListFragment(newlyEditedTask)
             findNavController().navigate(action)
 
+
         }
+
 
 
     }

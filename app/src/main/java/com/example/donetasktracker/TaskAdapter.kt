@@ -1,5 +1,6 @@
 package com.example.donetasktracker
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +22,6 @@ class TaskAdapter(private val tasks: MutableList<String>,
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.title_txt)
 
-
-
     }
 
 
@@ -36,10 +35,7 @@ class TaskAdapter(private val tasks: MutableList<String>,
         val task = tasks.get(position)
         holder.title.text = task
         holder.itemView.setOnClickListener {
-            val taskClickOn = tasks[position]
-            val action = ListFragmentDirections.actionListFragmentToUpdateFragment(taskClickOn)
-            it.findNavController().navigate(action)
-            //onItemClickListener.onItemClicked(position)
+            onItemClickListener.onItemClicked(position)
         }
     }
 
